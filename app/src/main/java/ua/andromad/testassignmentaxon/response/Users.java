@@ -2,24 +2,24 @@ package ua.andromad.testassignmentaxon.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class Users {
     @SerializedName("results")
-    private User[] arrUsers;
+    private List<User> lstUsers;
 
-    public User[] getArrUsers() {
-        return arrUsers;
+    public List<User> getLstUsers() {
+        return lstUsers;
     }
 
-    public void setArrUsers(User[] arrUsers) {
-        this.arrUsers = arrUsers;
+    public void setLstUsers(List<User> lstUsers) {
+        this.lstUsers = lstUsers;
     }
 
     @Override
     public String toString() {
         return "Users{" +
-                "arrUsers=" + Arrays.toString(arrUsers) +
+                "lstUsers=" + lstUsers +
                 '}';
     }
 }
