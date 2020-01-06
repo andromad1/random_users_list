@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements RandomUserFragmen
     @Override
     public void onListFragmentInteraction(User user) {
         Intent intent = new Intent(MainActivity.this, UserDetails.class);
-        //intent.putExtra("user", user);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 }

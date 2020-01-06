@@ -13,6 +13,8 @@ import ua.andromad.testassignmentaxon.services.RetrofitNetworkService;
 
 public class UtilNetwork {
     public static void loadUsers(RandomUserRecyclerViewAdapter adapter, Context context, int pageNum) {
+        Toast.makeText(context, "Loading data...", Toast.LENGTH_SHORT).show();
+
         RetrofitNetworkService.getInstance()
                 .getJSONApi()
                 .getUsers(pageNum, 20, "abc")

@@ -1,8 +1,11 @@
 package ua.andromad.testassignmentaxon.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable {
     @SerializedName("gender")
     private String gender;
 
@@ -20,6 +23,27 @@ public class User {
 
     @SerializedName("picture")
     private Picture picture;
+
+    protected User(Parcel in) {
+        gender = in.readString();
+        userName = in.readParcelable(UserName.class.getClassLoader());
+        email = in.readString();
+        dob = in.readParcelable(DofB.class.getClassLoader());
+        phone = in.readString();
+        picture = in.readParcelable(Picture.class.getClassLoader());
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getGender() {
         return gender;
@@ -79,5 +103,20 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", picture=" + picture +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(gender);
+        dest.writeParcelable(userName, flags);
+        dest.writeString(email);
+        dest.writeParcelable(dob, flags);
+        dest.writeString(phone);
+        dest.writeParcelable(picture, flags);
     }
 }
