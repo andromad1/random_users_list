@@ -15,17 +15,15 @@ import java.util.Collection;
 import java.util.List;
 
 import ua.andromad.testassignmentaxon.R;
-import ua.andromad.testassignmentaxon.activities.RandomUserFragment.OnListFragmentInteractionListener;
+import ua.andromad.testassignmentaxon.activities.ListFragmentInteractionListener;
 import ua.andromad.testassignmentaxon.response.User;
-import ua.andromad.testassignmentaxon.utils.UtilNetwork;
 
 public class RandomUserRecyclerViewAdapter extends RecyclerView.Adapter<RandomUserRecyclerViewAdapter.ViewHolder> {
 
     private final List<User> mUsers = new ArrayList<>();
-    private final OnListFragmentInteractionListener mListener;
-    private int pageNum = 2;
+    private final ListFragmentInteractionListener mListener;
 
-    public RandomUserRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    public RandomUserRecyclerViewAdapter(ListFragmentInteractionListener listener) {
         mListener = listener;
     }
 
@@ -39,8 +37,7 @@ public class RandomUserRecyclerViewAdapter extends RecyclerView.Adapter<RandomUs
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (mUsers.size()>0 && position==mUsers.size()-1) {
-            UtilNetwork.loadUsers(this, holder.mView.getContext(), pageNum);
-            pageNum++;
+            mListener.onEndOfListReached();
         }
 
         holder.mItem = mUsers.get(position);
@@ -49,12 +46,9 @@ public class RandomUserRecyclerViewAdapter extends RecyclerView.Adapter<RandomUs
         holder.mUserEmail.setText(mUsers.get(position).getEmail());
         Picasso.get().load(mUsers.get(position).getPicture().getMedium()).into(holder.userImageView);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+        holder.mView.setOnClickListener(v -> {
+            if (null != mListener) {
+                mListener.onUserSelected(holder.mItem);
             }
         });
     }

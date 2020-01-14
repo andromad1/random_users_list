@@ -2,7 +2,6 @@ package ua.andromad.testassignmentaxon.activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -18,22 +17,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ua.andromad.testassignmentaxon.R;
 import ua.andromad.testassignmentaxon.response.User;
 
-public class UserDetails extends AppCompatActivity implements View.OnClickListener {
-    private final static SimpleDateFormat dobFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private final static SimpleDateFormat dobShowFormat = new SimpleDateFormat("yyyy-MM-dd");
+import static ua.andromad.testassignmentaxon.utils.Const.EXTRA_user;
+import static ua.andromad.testassignmentaxon.utils.Const.dobFormat;
+import static ua.andromad.testassignmentaxon.utils.Const.dobShowFormat;
+
+public class UserDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText userPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ImageView userImageView = findViewById(R.id.user_image_view);
         TextView userName = findViewById(R.id.textFullName);
@@ -46,7 +45,7 @@ public class UserDetails extends AppCompatActivity implements View.OnClickListen
         Bundle data = getIntent().getExtras();
 
         if (data != null) {
-            User user = (User) data.getParcelable("user");
+            User user = (User) data.getParcelable(EXTRA_user);
 
             Picasso.get().load(user.getPicture().getLarge()).into(userImageView);
             userName.setText(user.getUserName().getFirst() + " " + user.getUserName().getLast());

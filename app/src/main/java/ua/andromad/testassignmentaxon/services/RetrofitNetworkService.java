@@ -11,20 +11,20 @@ public class RetrofitNetworkService {
     private static final String BASE_URL = "https://randomuser.me/api/";
 
     private RetrofitNetworkService() {
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
 
-        client.addInterceptor(interceptor);
+        okHttpClient.addInterceptor(interceptor);
 
-        Retrofit.Builder rb = new Retrofit.Builder()
+        Retrofit.Builder retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
 
-        rb.client(client.build());
+        retrofit.client(okHttpClient.build());
 
-        mRetrofit = rb.build();
+        mRetrofit = retrofit.build();
     }
 
     public static RetrofitNetworkService getInstance() {
